@@ -1,0 +1,58 @@
+<p id="notice"><%= notice %></p>
+<h1>Empresa: <%= @company.name %></h1>
+<h2>Empleados:</h2>
+<div class="col-md-8">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Email</th>
+          <th>Area</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @company.employees.each do |employee| %>
+          <tr>
+            <td><%= employee.first_name %></td>
+            <td><%= employee.last_name %></td>
+            <td><%= employee.email %></td>
+            <td><%= Area.find(employee.area_id).name %></td>
+            <td><%= link_to 'X', company_employee_path(employee.company,employee), class:'btn btn-danger' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+<h4>Nuevo Empleado:</h4>
+<%= form_with(model: [@company, @employee], local: true) do |form| %>
+  <div class="field">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.email_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :area %>
+    <%= form.select :area, @area %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Edit', edit_company_path(@company) %> |
+<%= link_to 'Back', companies_path %>
